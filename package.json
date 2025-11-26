@@ -1,0 +1,33 @@
+﻿{
+    "name":  "cropfresh-service-order",
+    "version":  "1.0.0",
+    "description":  "",
+    "main":  "index.js",
+    "scripts":  {
+                    "build":  "tsc",
+                    "dev":  "nodemon --watch src --exec ts-node src/index.ts",
+                    "start":  "node dist/index.js"
+                },
+    "keywords":  [
+
+                 ],
+    "author":  "",
+    "license":  "ISC",
+    "type":  "commonjs",
+    "dependencies":  {
+                         "@grpc/grpc-js":  "1.12",
+                         "@grpc/proto-loader":  "^0.7.15",
+                         "@prisma/client":  "7.0",
+                         "express":  "^5.1.0",
+                         "pino":  "9.5",
+                         "pino-pretty":  "11.3"
+                     },
+    "devDependencies":  {
+                            "@types/express":  "5.0",
+                            "@types/node":  "^22.19.1",
+                            "nodemon":  "3.1",
+                            "prisma":  "7.0",
+                            "ts-node":  "10.9",
+                            "typescript":  "5.7"
+                        }
+}
