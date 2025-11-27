@@ -1,14 +1,50 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+// Prisma Schema - Order Service
+// Database: cropfresh_order
+// Purpose: Order management, matching
 
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../src/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+// Order Model
+model Order {
+  id          Int         @id @default(autoincrement())
+  orderNumber String      @unique @map("order_number") @db.VarChar(50)
+  farmerId    Int         @map("farmer_id")
+  buyerId     Int         @map("buyer_id")
+  status      OrderStatus @default(PENDING)
+  totalAmount Decimal     @map("total_amount") @db.Decimal(10, 2)
+  createdAt   DateTime    @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt   DateTime    @updatedAt @map("updated_at") @db.Timestamptz(6)
+  deletedAt   DateTime?   @map("deleted_at") @db.Timestamptz(6)
+
+  items       OrderItem[]
+
+  @@map("orders")
+}
+
+// OrderItem Model
+model OrderItem {
+  id          Int      @id @default(autoincrement())
+  orderId     Int      @map("order_id")
+  cropName    String   @map("crop_name") @db.VarChar(100)
+  quantity    Decimal  @db.Decimal(10, 2)
+  unitPrice   Decimal  @map("unit_price") @db.Decimal(10, 2)
+
+  order       Order    @relation(fields: [orderId], references: [id])
+
+  @@map("order_items")
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  IN_TRANSIT
+  DELIVERED
+  CANCELLED
 }
