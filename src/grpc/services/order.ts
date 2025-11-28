@@ -5,18 +5,18 @@ import { Logger } from 'pino';
 export const orderServiceHandlers = (logger: Logger): OrderServiceHandlers => ({
   CreateOrder: (call, callback) => {
     logger.info('CreateOrder called');
-    callback(null, { id: 'order-1', status: 'PENDING', totalAmount: 100 });
+    callback(null, { orderId: 'order-1', totalAmount: 100.0, estimatedDelivery: '2023-10-27' });
   },
-  GetOrder: (call, callback) => {
-    logger.info('GetOrder called');
-    callback(null, { id: call.request.id, status: 'PENDING', totalAmount: 100, items: [] });
+  GetOrderStatus: (call, callback) => {
+    logger.info('GetOrderStatus called');
+    callback(null, { orderId: call.request.orderId, status: 'pending', haulerId: 'hauler-1', currentLocation: 'Farm', estimatedDelivery: '2023-10-27' });
   },
   UpdateOrderStatus: (call, callback) => {
     logger.info('UpdateOrderStatus called');
-    callback(null, { id: call.request.id, status: call.request.status });
+    callback(null, { success: true, timestamp: new Date().toISOString() });
   },
-  ListOrders: (call, callback) => {
-    logger.info('ListOrders called');
-    callback(null, { orders: [], total: 0 });
+  CancelOrder: (call, callback) => {
+    logger.info('CancelOrder called');
+    callback(null, { success: true, refundId: 'refund-1' });
   }
 });

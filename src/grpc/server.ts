@@ -1,7 +1,8 @@
 import * as grpc from '@grpc/grpc-js';
 import * as protoLoader from '@grpc/proto-loader';
 import { Logger } from 'pino';
-import { randomUUID } from 'crypto';
+import { v4 as uuidv4 } from 'uuid';
+import { asyncLocalStorage } from '../utils/logger';
 
 export class GrpcServer {
   private server: grpc.Server;
@@ -65,42 +66,38 @@ export class GrpcServer {
   private wrapMethod(methodName: string, handler: grpc.handleUnaryCall<any, any>): grpc.handleUnaryCall<any, any> {
     return (call: grpc.ServerUnaryCall<any, any>, callback: grpc.sendUnaryData<any>) => {
       const traceId = this.getTraceId(call.metadata);
-      const childLogger = this.logger.child({ traceId, method: methodName });
 
-      try {
-        // We can attach logger to call if we extend the type, but for now just use closure
-        // Or we could pass it if handler accepted it, but handler signature is fixed.
-        // For this implementation, we assume handlers are pure or use global logger, 
-        // but ideally we'd pass context. 
-        // Since we can't easily change the handler signature defined by generated types,
-        // we'll just log the start/end here.
-        
-        childLogger.info('gRPC call started');
-        
-        handler(call, (err: any, value?: any, trailer?: grpc.Metadata, flags?: number) => {
-          if (err) {
-            childLogger.error({ err }, 'gRPC call failed');
-            // Ensure it's a gRPC error
-            if (!err.code) {
-               err = {
-                 code: grpc.status.INTERNAL,
-                 details: err.message || 'Internal Server Error',
-                 metadata: err.metadata
-               };
+      // Run within AsyncLocalStorage context
+      asyncLocalStorage.run({ traceId }, () => {
+        const childLogger = this.logger.child({ method: methodName }); // traceId added via mixin
+
+        try {
+          childLogger.info('gRPC call started');
+
+          handler(call, (err: any, value?: any, trailer?: grpc.Metadata, flags?: number) => {
+            if (err) {
+              childLogger.error({ err }, 'gRPC call failed');
+              if (!err.code) {
+                err = {
+                  code: grpc.status.INTERNAL,
+                  details: err.message || 'Internal Server Error',
+                  metadata: err.metadata
+                };
+              }
+            } else {
+              childLogger.info('gRPC call completed');
             }
-          } else {
-            childLogger.info('gRPC call completed');
-          }
-          callback(err, value, trailer, flags);
-        });
-      } catch (err: any) {
-        childLogger.error({ err }, 'gRPC call threw exception');
-        const grpcError = {
-          code: grpc.status.INTERNAL,
-          details: err.message || 'Internal Server Error'
-        };
-        callback(grpcError, null);
-      }
+            callback(err, value, trailer, flags);
+          });
+        } catch (err: any) {
+          childLogger.error({ err }, 'gRPC call threw exception');
+          const grpcError = {
+            code: grpc.status.INTERNAL,
+            details: err.message || 'Internal Server Error'
+          };
+          callback(grpcError, null);
+        }
+      });
     };
   }
 
@@ -109,6 +106,6 @@ export class GrpcServer {
     if (traceId.length > 0) {
       return traceId[0].toString();
     }
-    return randomUUID();
+    return uuidv4();
   }
 }
