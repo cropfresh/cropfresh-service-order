@@ -1,6 +1,7 @@
 import * as grpc from '@grpc/grpc-js';
 import * as protoLoader from '@grpc/proto-loader';
 import { Logger } from 'pino';
+import { randomUUID } from 'crypto';
 
 export class GrpcClient {
   private client: grpc.Client;
@@ -48,8 +49,21 @@ export class GrpcClient {
       ]
     };
     
+    // Trace ID Interceptor
+    const traceInterceptor = (options: any, nextCall: any) => {
+      return new grpc.InterceptingCall(nextCall(options), {
+        start: function(metadata, listener, next) {
+          if (!metadata.get('trace-id').length) {
+            metadata.add('trace-id', randomUUID());
+          }
+          next(metadata, listener);
+        }
+      });
+    };
+
     const options = {
-      'grpc.service_config': JSON.stringify(serviceConfig)
+      'grpc.service_config': JSON.stringify(serviceConfig),
+      'interceptors': [traceInterceptor]
     };
 
     this.client = new Service(address, grpc.credentials.createInsecure(), options);
@@ -59,15 +73,9 @@ export class GrpcClient {
     return this.client;
   }
   
-  // Helper to make calls with trace ID
+  // Helper to make calls - now simplified as trace ID is handled by interceptor
   public makeCall(method: string, request: any, metadata: grpc.Metadata = new grpc.Metadata()): Promise<any> {
     return new Promise((resolve, reject) => {
-      // Ensure trace-id is present
-      if (!metadata.get('trace-id').length) {
-         // In a real app, we'd get this from context/CLS. For now, generate if missing or pass through.
-         // Assuming caller passes it.
-      }
-
       (this.client as any)[method](request, metadata, (err: any, response: any) => {
         if (err) {
           this.logger.error({ err, method }, 'gRPC call failed');
