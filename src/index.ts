@@ -1,9 +1,13 @@
+// Tracing (Must be first)
+import './tracing';
+
 import { GrpcServer } from './grpc/server';
 import { orderServiceHandlers } from './grpc/services/order';
 import path from 'path';
 import express from 'express';
 import { logger } from './utils/logger';
 import { requestLogger, traceIdMiddleware } from './middleware/logging';
+import { monitoringMiddleware, metricsHandler } from './middleware/monitoring';
 
 const app = express();
 
@@ -12,6 +16,7 @@ const SERVICE_NAME = 'Order Management Service';
 
 // Middleware
 app.use(express.json());
+app.use(monitoringMiddleware);
 app.use(traceIdMiddleware);
 app.use(requestLogger);
 
@@ -23,6 +28,15 @@ app.get('/health', (req, res) => {
     timestamp: new Date().toISOString()
   });
 });
+
+// Readiness Check
+app.get('/ready', (req, res) => {
+  // TODO: Add actual dependency checks (DB, gRPC)
+  res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+// Metrics Endpoint
+app.get('/metrics', metricsHandler);
 
 // Root endpoint
 app.get('/', (req, res) => {

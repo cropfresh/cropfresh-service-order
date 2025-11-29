@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import pinoHttp from 'pino-http';
+import { pinoHttp } from 'pino-http';
 import { v4 as uuidv4 } from 'uuid';
 import { logger, asyncLocalStorage } from '../utils/logger';
 
@@ -7,36 +7,33 @@ export const requestLogger = pinoHttp({
     logger: logger as any,
     genReqId: (req: Request) => {
         const traceId = req.headers['x-trace-id'] as string || uuidv4();
-        // Attach traceId to request object for easy access if needed
-        (req as any).id = traceId;
+        req.headers['x-trace-id'] = traceId; // Ensure header is present for downstream
         return traceId;
     },
     customProps: (req: Request) => {
         return {
-            trace_id: (req as any).id
+            trace_id: req.id,
         };
     },
     serializers: {
-        req: (req: any) => ({
+        req: (req) => ({
             method: req.method,
             url: req.url,
             query: req.query,
             params: req.params,
-            headers: {
-                ...req.headers,
-                authorization: undefined // Redact authorization header
-            },
-            remoteAddress: req.remoteAddress
+            remoteAddress: req.remoteAddress,
         }),
-        res: (res: any) => ({
-            statusCode: res.statusCode
-        })
-    }
+        res: (res) => ({
+            statusCode: res.statusCode,
+        }),
+    },
 });
 
 export const traceIdMiddleware = (req: Request, res: Response, next: NextFunction) => {
-    const traceId = (req.headers['x-trace-id'] as string) || uuidv4();
-    (req as any).id = traceId;
+    const traceId = (req.headers['x-trace-id'] as string) || (req.id as string) || uuidv4();
+
+    // Ensure traceId is set on request object and header
+    req.id = traceId;
     res.setHeader('X-Trace-ID', traceId);
 
     asyncLocalStorage.run({ traceId }, () => {
