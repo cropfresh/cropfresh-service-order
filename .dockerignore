@@ -1,6 +1,46 @@
-.git
-.env
+# Dependencies
 node_modules
-test/
-src/
-tsconfig.json
+npm-debug.log
+yarn-error.log
+
+# Build artifacts
+dist
+
+# Version control
+.git
+.gitignore
+.gitmodules
+
+# Environment files (NEVER include in image)
+.env
+.env.*
+!.env.example
+
+# Test files
+test
+tests
+*.test.ts
+*.spec.ts
+jest.config.js
+coverage
+
+# IDE and editor files
+.vscode
+.idea
+*.swp
+*.swo
+
+# Documentation
+README.md
+docs
+*.md
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+tmp
+temp
+*.tmp
+*.log

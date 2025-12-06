@@ -8,8 +8,11 @@ import express from 'express';
 import { logger } from './utils/logger';
 import { requestLogger, traceIdMiddleware } from './middleware/logging';
 import { monitoringMiddleware, metricsHandler } from './middleware/monitoring';
+import { PrismaClient } from '@prisma/client';
+import { livenessHandler, createReadinessHandler } from './middleware/health';
 
 const app = express();
+const prisma = new PrismaClient();
 
 const PORT = process.env.PORT || 3003;
 const SERVICE_NAME = 'Order Management Service';
@@ -20,20 +23,9 @@ app.use(monitoringMiddleware);
 app.use(traceIdMiddleware);
 app.use(requestLogger);
 
-// Health check endpoint
-app.get('/health', (req, res) => {
-  res.json({
-    status: 'ok',
-    service: SERVICE_NAME,
-    timestamp: new Date().toISOString()
-  });
-});
-
-// Readiness Check
-app.get('/ready', (req, res) => {
-  // TODO: Add actual dependency checks (DB, gRPC)
-  res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
-});
+// Health check endpoints (Kubernetes probes)
+app.get('/health', livenessHandler);
+app.get('/ready', createReadinessHandler(prisma));
 
 // Metrics Endpoint
 app.get('/metrics', metricsHandler);

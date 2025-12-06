@@ -66,15 +66,18 @@ export class GrpcServer {
   private wrapMethod(methodName: string, handler: grpc.handleUnaryCall<any, any>): grpc.handleUnaryCall<any, any> {
     return (call: grpc.ServerUnaryCall<any, any>, callback: grpc.sendUnaryData<any>) => {
       const traceId = this.getTraceId(call.metadata);
+      const startTime = Date.now();
 
-      // Run within AsyncLocalStorage context
       asyncLocalStorage.run({ traceId }, () => {
-        const childLogger = this.logger.child({ method: methodName }); // traceId added via mixin
+        const childLogger = this.logger.child({ method: methodName });
 
         try {
           childLogger.info('gRPC call started');
 
           handler(call, (err: any, value?: any, trailer?: grpc.Metadata, flags?: number) => {
+            const duration = (Date.now() - startTime) / 1000;
+            let statusCode = 'OK';
+
             if (err) {
               childLogger.error({ err }, 'gRPC call failed');
               if (!err.code) {
@@ -84,9 +87,17 @@ export class GrpcServer {
                   metadata: err.metadata
                 };
               }
+              statusCode = grpc.status[err.code] || 'UNKNOWN';
             } else {
               childLogger.info('gRPC call completed');
             }
+
+            try {
+              const { grpcRequestDuration, grpcRequestTotal } = require('../middleware/monitoring');
+              grpcRequestDuration.labels('order-service', methodName, statusCode).observe(duration);
+              grpcRequestTotal.labels('order-service', methodName, statusCode).inc();
+            } catch (metricsErr) { }
+
             callback(err, value, trailer, flags);
           });
         } catch (err: any) {
@@ -95,6 +106,14 @@ export class GrpcServer {
             code: grpc.status.INTERNAL,
             details: err.message || 'Internal Server Error'
           };
+
+          try {
+            const { grpcRequestDuration, grpcRequestTotal } = require('../middleware/monitoring');
+            const duration = (Date.now() - startTime) / 1000;
+            grpcRequestDuration.labels('order-service', methodName, 'INTERNAL').observe(duration);
+            grpcRequestTotal.labels('order-service', methodName, 'INTERNAL').inc();
+          } catch (metricsErr) { }
+
           callback(grpcError, null);
         }
       });
