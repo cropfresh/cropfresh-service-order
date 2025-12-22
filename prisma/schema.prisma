@@ -23,20 +23,20 @@ model Order {
   updatedAt   DateTime    @updatedAt @map("updated_at") @db.Timestamptz(6)
   deletedAt   DateTime?   @map("deleted_at") @db.Timestamptz(6)
 
-  items       OrderItem[]
+  items OrderItem[]
 
   @@map("orders")
 }
 
 // OrderItem Model
 model OrderItem {
-  id          Int      @id @default(autoincrement())
-  orderId     Int      @map("order_id")
-  cropName    String   @map("crop_name") @db.VarChar(100)
-  quantity    Decimal  @db.Decimal(10, 2)
-  unitPrice   Decimal  @map("unit_price") @db.Decimal(10, 2)
+  id        Int     @id @default(autoincrement())
+  orderId   Int     @map("order_id")
+  cropName  String  @map("crop_name") @db.VarChar(100)
+  quantity  Decimal @db.Decimal(10, 2)
+  unitPrice Decimal @map("unit_price") @db.Decimal(10, 2)
 
-  order       Order    @relation(fields: [orderId], references: [id])
+  order Order @relation(fields: [orderId], references: [id])
 
   @@map("order_items")
 }
@@ -47,4 +47,42 @@ enum OrderStatus {
   IN_TRANSIT
   DELIVERED
   CANCELLED
+}
+
+// Match Model - Story 3.5
+model Match {
+  id              String      @id @default(uuid()) @db.Uuid
+  listingId       String      @map("listing_id") @db.VarChar(50)
+  farmerId        Int         @map("farmer_id")
+  orderId         String?     @map("order_id") @db.VarChar(50)
+  quantityMatched Decimal     @map("quantity_matched") @db.Decimal(10, 2)
+  pricePerKg      Decimal     @map("price_per_kg") @db.Decimal(10, 2)
+  totalAmount     Decimal     @map("total_amount") @db.Decimal(10, 2)
+  status          MatchStatus @default(PENDING_ACCEPTANCE)
+  rejectionReason String?     @map("rejection_reason") @db.VarChar(100)
+  expiresAt       DateTime    @map("expires_at") @db.Timestamptz(6)
+  acceptedAt      DateTime?   @map("accepted_at") @db.Timestamptz(6)
+  rejectedAt      DateTime?   @map("rejected_at") @db.Timestamptz(6)
+  createdAt       DateTime    @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt       DateTime    @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  // Buyer info (denormalized for performance)
+  buyerId           String  @map("buyer_id") @db.VarChar(50)
+  buyerBusinessType String  @map("buyer_business_type") @db.VarChar(50)
+  buyerCity         String  @map("buyer_city") @db.VarChar(100)
+  buyerArea         String? @map("buyer_area") @db.VarChar(100)
+  deliveryDate      String? @map("delivery_date") @db.VarChar(50)
+
+  @@index([listingId])
+  @@index([farmerId])
+  @@index([status])
+  @@index([expiresAt])
+  @@map("matches")
+}
+
+enum MatchStatus {
+  PENDING_ACCEPTANCE
+  ACCEPTED
+  REJECTED
+  EXPIRED
 }

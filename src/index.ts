@@ -46,19 +46,26 @@ app.listen(PORT, () => {
 export default app;
 
 // gRPC Server Setup
+// gRPC Server Setup
 const GRPC_PORT = parseInt(process.env.GRPC_PORT || '50051', 10);
-const PROTO_PATH = path.join(__dirname, '../protos/proto/order.proto');
-const PACKAGE_NAME = 'cropfresh.order';
-const SERVICE_NAME_GRPC = 'Service';
+const ORDER_PROTO_PATH = path.join(__dirname, '../protos/proto/order.proto');
+const MATCH_PROTO_PATH = path.join(__dirname, '../protos/proto/match.proto');
+
+import { matchServiceHandlers } from './grpc/services/match.handlers';
 
 (async () => {
   try {
     const grpcServer = new GrpcServer(GRPC_PORT, logger);
-    const packageDef = grpcServer.loadProto(PROTO_PATH);
-    const proto = packageDef.cropfresh.order as any;
-    const serviceDef = proto[SERVICE_NAME_GRPC].service;
 
-    grpcServer.addService(serviceDef, orderServiceHandlers(logger));
+    // Load and register Order Service
+    const orderPackageDef = grpcServer.loadProto(ORDER_PROTO_PATH);
+    const orderProto = orderPackageDef.cropfresh.order as any;
+    grpcServer.addService(orderProto.OrderService.service, orderServiceHandlers(logger));
+
+    // Load and register Match Service
+    const matchPackageDef = grpcServer.loadProto(MATCH_PROTO_PATH);
+    const matchProto = matchPackageDef.cropfresh.order as any;
+    grpcServer.addService(matchProto.MatchService.service, matchServiceHandlers(logger));
 
     await grpcServer.start();
   } catch (err) {
