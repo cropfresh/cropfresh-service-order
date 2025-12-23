@@ -8,11 +8,11 @@ import express from 'express';
 import { logger } from './utils/logger';
 import { requestLogger, traceIdMiddleware } from './middleware/logging';
 import { monitoringMiddleware, metricsHandler } from './middleware/monitoring';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from './lib/prisma';
 import { livenessHandler, createReadinessHandler } from './middleware/health';
 
 const app = express();
-const prisma = new PrismaClient();
+// PrismaClient is now initialized in lib/prisma.ts with Prisma 7 driver adapter
 
 const PORT = process.env.PORT || 3003;
 const SERVICE_NAME = 'Order Management Service';

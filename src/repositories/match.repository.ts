@@ -5,7 +5,7 @@
  * Encapsulates database queries and handles connection pooling implicitly via PrismaClient.
  */
 
-import { PrismaClient, Prisma } from '@prisma/client';
+import { PrismaClient, Prisma } from '../generated/prisma/client';
 import { Match, CreateMatchDTO, MatchStatus } from '../types/match.types';
 import { logger } from '../utils/logger';
 

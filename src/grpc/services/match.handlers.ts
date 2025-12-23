@@ -9,14 +9,13 @@
 import { Logger } from 'pino';
 import { MatchService } from '../../services/match.service';
 import { MatchRepository } from '../../repositories/match.repository';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '../../lib/prisma';
 import * as grpc from '@grpc/grpc-js';
 
 // TODO: These types should be generated from proto, but for now assuming we use `any` 
 // or define loose interfaces matching the proto for the handler signatures.
 // In a real setup, we would run `protoc` to generate TS types.
 
-const prisma = new PrismaClient();
 const matchRepo = new MatchRepository(prisma);
 const matchService = new MatchService(matchRepo);
 

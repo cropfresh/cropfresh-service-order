@@ -5,7 +5,7 @@
  * Used across Repository, Service, and gRPC layers.
  */
 
-import { Decimal } from '@prisma/client/runtime/library';
+import { Prisma } from '../generated/prisma/client';
 
 // Match Status Enum (aligned with Prisma/Proto)
 export enum MatchStatus {
@@ -29,9 +29,9 @@ export interface Match {
     listingId: string;
     farmerId: number; // Added
     orderId?: string | null;
-    quantityMatched: number | Decimal; // Can be prisma Decimal
-    pricePerKg: number | Decimal;
-    totalAmount: number | Decimal;
+    quantityMatched: number | Prisma.Decimal; // Can be prisma Decimal
+    pricePerKg: number | Prisma.Decimal;
+    totalAmount: number | Prisma.Decimal;
     status: MatchStatus;
     rejectionReason?: string | null;
     expiresAt: Date;
