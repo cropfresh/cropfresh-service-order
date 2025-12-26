@@ -186,6 +186,23 @@ exports.Prisma.MatchScalarFieldEnum = {
   deliveryDate: 'deliveryDate'
 };
 
+exports.Prisma.QualityRatingScalarFieldEnum = {
+  id: 'id',
+  orderId: 'orderId',
+  farmerId: 'farmerId',
+  buyerId: 'buyerId',
+  rating: 'rating',
+  comment: 'comment',
+  qualityIssues: 'qualityIssues',
+  cropType: 'cropType',
+  quantityKg: 'quantityKg',
+  ratedAt: 'ratedAt',
+  seenByFarmer: 'seenByFarmer',
+  seenAt: 'seenAt',
+  aiGradedPhotoUrl: 'aiGradedPhotoUrl',
+  buyerPhotoUrl: 'buyerPhotoUrl'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -235,10 +252,19 @@ exports.MatchStatus = exports.$Enums.MatchStatus = {
   EXPIRED: 'EXPIRED'
 };
 
+exports.QualityIssue = exports.$Enums.QualityIssue = {
+  BRUISING: 'BRUISING',
+  SIZE_INCONSISTENCY: 'SIZE_INCONSISTENCY',
+  RIPENESS_ISSUES: 'RIPENESS_ISSUES',
+  FRESHNESS_CONCERNS: 'FRESHNESS_CONCERNS',
+  PACKAGING_PROBLEMS: 'PACKAGING_PROBLEMS'
+};
+
 exports.Prisma.ModelName = {
   Order: 'Order',
   OrderItem: 'OrderItem',
-  Match: 'Match'
+  Match: 'Match',
+  QualityRating: 'QualityRating'
 };
 
 /**

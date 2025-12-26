@@ -139,3 +139,37 @@ enum MatchStatus {
   REJECTED
   EXPIRED
 }
+
+// Story 3.10 - Quality Ratings
+model QualityRating {
+  id            String         @id @default(uuid()) @db.Uuid
+  orderId       Int            @map("order_id")
+  farmerId      Int            @map("farmer_id")
+  buyerId       Int            @map("buyer_id")
+  rating        Int // 1-5 stars
+  comment       String?        @db.Text
+  qualityIssues QualityIssue[] @map("quality_issues")
+  cropType      String         @map("crop_type") @db.VarChar(100)
+  quantityKg    Decimal        @map("quantity_kg") @db.Decimal(10, 2)
+  ratedAt       DateTime       @default(now()) @map("rated_at") @db.Timestamptz(6)
+  seenByFarmer  Boolean        @default(false) @map("seen_by_farmer")
+  seenAt        DateTime?      @map("seen_at") @db.Timestamptz(6)
+
+  // Photo URLs for comparison (optional)
+  aiGradedPhotoUrl String? @map("ai_graded_photo_url") @db.VarChar(500)
+  buyerPhotoUrl    String? @map("buyer_photo_url") @db.VarChar(500)
+
+  @@index([farmerId])
+  @@index([orderId])
+  @@index([ratedAt(sort: Desc)])
+  @@index([seenByFarmer])
+  @@map("quality_ratings")
+}
+
+enum QualityIssue {
+  BRUISING
+  SIZE_INCONSISTENCY
+  RIPENESS_ISSUES
+  FRESHNESS_CONCERNS
+  PACKAGING_PROBLEMS
+}

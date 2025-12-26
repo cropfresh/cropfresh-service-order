@@ -28,6 +28,11 @@ export type OrderItem = $Result.DefaultSelection<Prisma.$OrderItemPayload>
  * 
  */
 export type Match = $Result.DefaultSelection<Prisma.$MatchPayload>
+/**
+ * Model QualityRating
+ * 
+ */
+export type QualityRating = $Result.DefaultSelection<Prisma.$QualityRatingPayload>
 
 /**
  * Enums
@@ -66,6 +71,17 @@ export const MatchStatus: {
 
 export type MatchStatus = (typeof MatchStatus)[keyof typeof MatchStatus]
 
+
+export const QualityIssue: {
+  BRUISING: 'BRUISING',
+  SIZE_INCONSISTENCY: 'SIZE_INCONSISTENCY',
+  RIPENESS_ISSUES: 'RIPENESS_ISSUES',
+  FRESHNESS_CONCERNS: 'FRESHNESS_CONCERNS',
+  PACKAGING_PROBLEMS: 'PACKAGING_PROBLEMS'
+};
+
+export type QualityIssue = (typeof QualityIssue)[keyof typeof QualityIssue]
+
 }
 
 export type OrderStatus = $Enums.OrderStatus
@@ -79,6 +95,10 @@ export const TrackingStatus: typeof $Enums.TrackingStatus
 export type MatchStatus = $Enums.MatchStatus
 
 export const MatchStatus: typeof $Enums.MatchStatus
+
+export type QualityIssue = $Enums.QualityIssue
+
+export const QualityIssue: typeof $Enums.QualityIssue
 
 /**
  * ##  Prisma Client ʲˢ
@@ -226,6 +246,16 @@ export class PrismaClient<
     * ```
     */
   get match(): Prisma.MatchDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.qualityRating`: Exposes CRUD operations for the **QualityRating** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more QualityRatings
+    * const qualityRatings = await prisma.qualityRating.findMany()
+    * ```
+    */
+  get qualityRating(): Prisma.QualityRatingDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -662,7 +692,8 @@ export namespace Prisma {
   export const ModelName: {
     Order: 'Order',
     OrderItem: 'OrderItem',
-    Match: 'Match'
+    Match: 'Match',
+    QualityRating: 'QualityRating'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -678,7 +709,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "order" | "orderItem" | "match"
+      modelProps: "order" | "orderItem" | "match" | "qualityRating"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -904,6 +935,80 @@ export namespace Prisma {
           }
         }
       }
+      QualityRating: {
+        payload: Prisma.$QualityRatingPayload<ExtArgs>
+        fields: Prisma.QualityRatingFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.QualityRatingFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QualityRatingPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.QualityRatingFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QualityRatingPayload>
+          }
+          findFirst: {
+            args: Prisma.QualityRatingFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QualityRatingPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.QualityRatingFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QualityRatingPayload>
+          }
+          findMany: {
+            args: Prisma.QualityRatingFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QualityRatingPayload>[]
+          }
+          create: {
+            args: Prisma.QualityRatingCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QualityRatingPayload>
+          }
+          createMany: {
+            args: Prisma.QualityRatingCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.QualityRatingCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QualityRatingPayload>[]
+          }
+          delete: {
+            args: Prisma.QualityRatingDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QualityRatingPayload>
+          }
+          update: {
+            args: Prisma.QualityRatingUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QualityRatingPayload>
+          }
+          deleteMany: {
+            args: Prisma.QualityRatingDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.QualityRatingUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.QualityRatingUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QualityRatingPayload>[]
+          }
+          upsert: {
+            args: Prisma.QualityRatingUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QualityRatingPayload>
+          }
+          aggregate: {
+            args: Prisma.QualityRatingAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateQualityRating>
+          }
+          groupBy: {
+            args: Prisma.QualityRatingGroupByArgs<ExtArgs>
+            result: $Utils.Optional<QualityRatingGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.QualityRatingCountArgs<ExtArgs>
+            result: $Utils.Optional<QualityRatingCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -999,6 +1104,7 @@ export namespace Prisma {
     order?: OrderOmit
     orderItem?: OrderItemOmit
     match?: MatchOmit
+    qualityRating?: QualityRatingOmit
   }
 
   /* Types for Logging */
@@ -4929,6 +5035,1164 @@ export namespace Prisma {
 
 
   /**
+   * Model QualityRating
+   */
+
+  export type AggregateQualityRating = {
+    _count: QualityRatingCountAggregateOutputType | null
+    _avg: QualityRatingAvgAggregateOutputType | null
+    _sum: QualityRatingSumAggregateOutputType | null
+    _min: QualityRatingMinAggregateOutputType | null
+    _max: QualityRatingMaxAggregateOutputType | null
+  }
+
+  export type QualityRatingAvgAggregateOutputType = {
+    orderId: number | null
+    farmerId: number | null
+    buyerId: number | null
+    rating: number | null
+    quantityKg: Decimal | null
+  }
+
+  export type QualityRatingSumAggregateOutputType = {
+    orderId: number | null
+    farmerId: number | null
+    buyerId: number | null
+    rating: number | null
+    quantityKg: Decimal | null
+  }
+
+  export type QualityRatingMinAggregateOutputType = {
+    id: string | null
+    orderId: number | null
+    farmerId: number | null
+    buyerId: number | null
+    rating: number | null
+    comment: string | null
+    cropType: string | null
+    quantityKg: Decimal | null
+    ratedAt: Date | null
+    seenByFarmer: boolean | null
+    seenAt: Date | null
+    aiGradedPhotoUrl: string | null
+    buyerPhotoUrl: string | null
+  }
+
+  export type QualityRatingMaxAggregateOutputType = {
+    id: string | null
+    orderId: number | null
+    farmerId: number | null
+    buyerId: number | null
+    rating: number | null
+    comment: string | null
+    cropType: string | null
+    quantityKg: Decimal | null
+    ratedAt: Date | null
+    seenByFarmer: boolean | null
+    seenAt: Date | null
+    aiGradedPhotoUrl: string | null
+    buyerPhotoUrl: string | null
+  }
+
+  export type QualityRatingCountAggregateOutputType = {
+    id: number
+    orderId: number
+    farmerId: number
+    buyerId: number
+    rating: number
+    comment: number
+    qualityIssues: number
+    cropType: number
+    quantityKg: number
+    ratedAt: number
+    seenByFarmer: number
+    seenAt: number
+    aiGradedPhotoUrl: number
+    buyerPhotoUrl: number
+    _all: number
+  }
+
+
+  export type QualityRatingAvgAggregateInputType = {
+    orderId?: true
+    farmerId?: true
+    buyerId?: true
+    rating?: true
+    quantityKg?: true
+  }
+
+  export type QualityRatingSumAggregateInputType = {
+    orderId?: true
+    farmerId?: true
+    buyerId?: true
+    rating?: true
+    quantityKg?: true
+  }
+
+  export type QualityRatingMinAggregateInputType = {
+    id?: true
+    orderId?: true
+    farmerId?: true
+    buyerId?: true
+    rating?: true
+    comment?: true
+    cropType?: true
+    quantityKg?: true
+    ratedAt?: true
+    seenByFarmer?: true
+    seenAt?: true
+    aiGradedPhotoUrl?: true
+    buyerPhotoUrl?: true
+  }
+
+  export type QualityRatingMaxAggregateInputType = {
+    id?: true
+    orderId?: true
+    farmerId?: true
+    buyerId?: true
+    rating?: true
+    comment?: true
+    cropType?: true
+    quantityKg?: true
+    ratedAt?: true
+    seenByFarmer?: true
+    seenAt?: true
+    aiGradedPhotoUrl?: true
+    buyerPhotoUrl?: true
+  }
+
+  export type QualityRatingCountAggregateInputType = {
+    id?: true
+    orderId?: true
+    farmerId?: true
+    buyerId?: true
+    rating?: true
+    comment?: true
+    qualityIssues?: true
+    cropType?: true
+    quantityKg?: true
+    ratedAt?: true
+    seenByFarmer?: true
+    seenAt?: true
+    aiGradedPhotoUrl?: true
+    buyerPhotoUrl?: true
+    _all?: true
+  }
+
+  export type QualityRatingAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which QualityRating to aggregate.
+     */
+    where?: QualityRatingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QualityRatings to fetch.
+     */
+    orderBy?: QualityRatingOrderByWithRelationInput | QualityRatingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: QualityRatingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QualityRatings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QualityRatings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned QualityRatings
+    **/
+    _count?: true | QualityRatingCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: QualityRatingAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: QualityRatingSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: QualityRatingMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: QualityRatingMaxAggregateInputType
+  }
+
+  export type GetQualityRatingAggregateType<T extends QualityRatingAggregateArgs> = {
+        [P in keyof T & keyof AggregateQualityRating]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateQualityRating[P]>
+      : GetScalarType<T[P], AggregateQualityRating[P]>
+  }
+
+
+
+
+  export type QualityRatingGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QualityRatingWhereInput
+    orderBy?: QualityRatingOrderByWithAggregationInput | QualityRatingOrderByWithAggregationInput[]
+    by: QualityRatingScalarFieldEnum[] | QualityRatingScalarFieldEnum
+    having?: QualityRatingScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: QualityRatingCountAggregateInputType | true
+    _avg?: QualityRatingAvgAggregateInputType
+    _sum?: QualityRatingSumAggregateInputType
+    _min?: QualityRatingMinAggregateInputType
+    _max?: QualityRatingMaxAggregateInputType
+  }
+
+  export type QualityRatingGroupByOutputType = {
+    id: string
+    orderId: number
+    farmerId: number
+    buyerId: number
+    rating: number
+    comment: string | null
+    qualityIssues: $Enums.QualityIssue[]
+    cropType: string
+    quantityKg: Decimal
+    ratedAt: Date
+    seenByFarmer: boolean
+    seenAt: Date | null
+    aiGradedPhotoUrl: string | null
+    buyerPhotoUrl: string | null
+    _count: QualityRatingCountAggregateOutputType | null
+    _avg: QualityRatingAvgAggregateOutputType | null
+    _sum: QualityRatingSumAggregateOutputType | null
+    _min: QualityRatingMinAggregateOutputType | null
+    _max: QualityRatingMaxAggregateOutputType | null
+  }
+
+  type GetQualityRatingGroupByPayload<T extends QualityRatingGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<QualityRatingGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof QualityRatingGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], QualityRatingGroupByOutputType[P]>
+            : GetScalarType<T[P], QualityRatingGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type QualityRatingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    orderId?: boolean
+    farmerId?: boolean
+    buyerId?: boolean
+    rating?: boolean
+    comment?: boolean
+    qualityIssues?: boolean
+    cropType?: boolean
+    quantityKg?: boolean
+    ratedAt?: boolean
+    seenByFarmer?: boolean
+    seenAt?: boolean
+    aiGradedPhotoUrl?: boolean
+    buyerPhotoUrl?: boolean
+  }, ExtArgs["result"]["qualityRating"]>
+
+  export type QualityRatingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    orderId?: boolean
+    farmerId?: boolean
+    buyerId?: boolean
+    rating?: boolean
+    comment?: boolean
+    qualityIssues?: boolean
+    cropType?: boolean
+    quantityKg?: boolean
+    ratedAt?: boolean
+    seenByFarmer?: boolean
+    seenAt?: boolean
+    aiGradedPhotoUrl?: boolean
+    buyerPhotoUrl?: boolean
+  }, ExtArgs["result"]["qualityRating"]>
+
+  export type QualityRatingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    orderId?: boolean
+    farmerId?: boolean
+    buyerId?: boolean
+    rating?: boolean
+    comment?: boolean
+    qualityIssues?: boolean
+    cropType?: boolean
+    quantityKg?: boolean
+    ratedAt?: boolean
+    seenByFarmer?: boolean
+    seenAt?: boolean
+    aiGradedPhotoUrl?: boolean
+    buyerPhotoUrl?: boolean
+  }, ExtArgs["result"]["qualityRating"]>
+
+  export type QualityRatingSelectScalar = {
+    id?: boolean
+    orderId?: boolean
+    farmerId?: boolean
+    buyerId?: boolean
+    rating?: boolean
+    comment?: boolean
+    qualityIssues?: boolean
+    cropType?: boolean
+    quantityKg?: boolean
+    ratedAt?: boolean
+    seenByFarmer?: boolean
+    seenAt?: boolean
+    aiGradedPhotoUrl?: boolean
+    buyerPhotoUrl?: boolean
+  }
+
+  export type QualityRatingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orderId" | "farmerId" | "buyerId" | "rating" | "comment" | "qualityIssues" | "cropType" | "quantityKg" | "ratedAt" | "seenByFarmer" | "seenAt" | "aiGradedPhotoUrl" | "buyerPhotoUrl", ExtArgs["result"]["qualityRating"]>
+
+  export type $QualityRatingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "QualityRating"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      orderId: number
+      farmerId: number
+      buyerId: number
+      rating: number
+      comment: string | null
+      qualityIssues: $Enums.QualityIssue[]
+      cropType: string
+      quantityKg: Prisma.Decimal
+      ratedAt: Date
+      seenByFarmer: boolean
+      seenAt: Date | null
+      aiGradedPhotoUrl: string | null
+      buyerPhotoUrl: string | null
+    }, ExtArgs["result"]["qualityRating"]>
+    composites: {}
+  }
+
+  type QualityRatingGetPayload<S extends boolean | null | undefined | QualityRatingDefaultArgs> = $Result.GetResult<Prisma.$QualityRatingPayload, S>
+
+  type QualityRatingCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<QualityRatingFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: QualityRatingCountAggregateInputType | true
+    }
+
+  export interface QualityRatingDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['QualityRating'], meta: { name: 'QualityRating' } }
+    /**
+     * Find zero or one QualityRating that matches the filter.
+     * @param {QualityRatingFindUniqueArgs} args - Arguments to find a QualityRating
+     * @example
+     * // Get one QualityRating
+     * const qualityRating = await prisma.qualityRating.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends QualityRatingFindUniqueArgs>(args: SelectSubset<T, QualityRatingFindUniqueArgs<ExtArgs>>): Prisma__QualityRatingClient<$Result.GetResult<Prisma.$QualityRatingPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one QualityRating that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {QualityRatingFindUniqueOrThrowArgs} args - Arguments to find a QualityRating
+     * @example
+     * // Get one QualityRating
+     * const qualityRating = await prisma.qualityRating.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends QualityRatingFindUniqueOrThrowArgs>(args: SelectSubset<T, QualityRatingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__QualityRatingClient<$Result.GetResult<Prisma.$QualityRatingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first QualityRating that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QualityRatingFindFirstArgs} args - Arguments to find a QualityRating
+     * @example
+     * // Get one QualityRating
+     * const qualityRating = await prisma.qualityRating.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends QualityRatingFindFirstArgs>(args?: SelectSubset<T, QualityRatingFindFirstArgs<ExtArgs>>): Prisma__QualityRatingClient<$Result.GetResult<Prisma.$QualityRatingPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first QualityRating that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QualityRatingFindFirstOrThrowArgs} args - Arguments to find a QualityRating
+     * @example
+     * // Get one QualityRating
+     * const qualityRating = await prisma.qualityRating.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends QualityRatingFindFirstOrThrowArgs>(args?: SelectSubset<T, QualityRatingFindFirstOrThrowArgs<ExtArgs>>): Prisma__QualityRatingClient<$Result.GetResult<Prisma.$QualityRatingPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more QualityRatings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QualityRatingFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all QualityRatings
+     * const qualityRatings = await prisma.qualityRating.findMany()
+     * 
+     * // Get first 10 QualityRatings
+     * const qualityRatings = await prisma.qualityRating.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const qualityRatingWithIdOnly = await prisma.qualityRating.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends QualityRatingFindManyArgs>(args?: SelectSubset<T, QualityRatingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QualityRatingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a QualityRating.
+     * @param {QualityRatingCreateArgs} args - Arguments to create a QualityRating.
+     * @example
+     * // Create one QualityRating
+     * const QualityRating = await prisma.qualityRating.create({
+     *   data: {
+     *     // ... data to create a QualityRating
+     *   }
+     * })
+     * 
+     */
+    create<T extends QualityRatingCreateArgs>(args: SelectSubset<T, QualityRatingCreateArgs<ExtArgs>>): Prisma__QualityRatingClient<$Result.GetResult<Prisma.$QualityRatingPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many QualityRatings.
+     * @param {QualityRatingCreateManyArgs} args - Arguments to create many QualityRatings.
+     * @example
+     * // Create many QualityRatings
+     * const qualityRating = await prisma.qualityRating.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends QualityRatingCreateManyArgs>(args?: SelectSubset<T, QualityRatingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many QualityRatings and returns the data saved in the database.
+     * @param {QualityRatingCreateManyAndReturnArgs} args - Arguments to create many QualityRatings.
+     * @example
+     * // Create many QualityRatings
+     * const qualityRating = await prisma.qualityRating.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many QualityRatings and only return the `id`
+     * const qualityRatingWithIdOnly = await prisma.qualityRating.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends QualityRatingCreateManyAndReturnArgs>(args?: SelectSubset<T, QualityRatingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QualityRatingPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a QualityRating.
+     * @param {QualityRatingDeleteArgs} args - Arguments to delete one QualityRating.
+     * @example
+     * // Delete one QualityRating
+     * const QualityRating = await prisma.qualityRating.delete({
+     *   where: {
+     *     // ... filter to delete one QualityRating
+     *   }
+     * })
+     * 
+     */
+    delete<T extends QualityRatingDeleteArgs>(args: SelectSubset<T, QualityRatingDeleteArgs<ExtArgs>>): Prisma__QualityRatingClient<$Result.GetResult<Prisma.$QualityRatingPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one QualityRating.
+     * @param {QualityRatingUpdateArgs} args - Arguments to update one QualityRating.
+     * @example
+     * // Update one QualityRating
+     * const qualityRating = await prisma.qualityRating.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends QualityRatingUpdateArgs>(args: SelectSubset<T, QualityRatingUpdateArgs<ExtArgs>>): Prisma__QualityRatingClient<$Result.GetResult<Prisma.$QualityRatingPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more QualityRatings.
+     * @param {QualityRatingDeleteManyArgs} args - Arguments to filter QualityRatings to delete.
+     * @example
+     * // Delete a few QualityRatings
+     * const { count } = await prisma.qualityRating.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends QualityRatingDeleteManyArgs>(args?: SelectSubset<T, QualityRatingDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more QualityRatings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QualityRatingUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many QualityRatings
+     * const qualityRating = await prisma.qualityRating.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends QualityRatingUpdateManyArgs>(args: SelectSubset<T, QualityRatingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more QualityRatings and returns the data updated in the database.
+     * @param {QualityRatingUpdateManyAndReturnArgs} args - Arguments to update many QualityRatings.
+     * @example
+     * // Update many QualityRatings
+     * const qualityRating = await prisma.qualityRating.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more QualityRatings and only return the `id`
+     * const qualityRatingWithIdOnly = await prisma.qualityRating.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends QualityRatingUpdateManyAndReturnArgs>(args: SelectSubset<T, QualityRatingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QualityRatingPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one QualityRating.
+     * @param {QualityRatingUpsertArgs} args - Arguments to update or create a QualityRating.
+     * @example
+     * // Update or create a QualityRating
+     * const qualityRating = await prisma.qualityRating.upsert({
+     *   create: {
+     *     // ... data to create a QualityRating
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the QualityRating we want to update
+     *   }
+     * })
+     */
+    upsert<T extends QualityRatingUpsertArgs>(args: SelectSubset<T, QualityRatingUpsertArgs<ExtArgs>>): Prisma__QualityRatingClient<$Result.GetResult<Prisma.$QualityRatingPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of QualityRatings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QualityRatingCountArgs} args - Arguments to filter QualityRatings to count.
+     * @example
+     * // Count the number of QualityRatings
+     * const count = await prisma.qualityRating.count({
+     *   where: {
+     *     // ... the filter for the QualityRatings we want to count
+     *   }
+     * })
+    **/
+    count<T extends QualityRatingCountArgs>(
+      args?: Subset<T, QualityRatingCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], QualityRatingCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a QualityRating.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QualityRatingAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends QualityRatingAggregateArgs>(args: Subset<T, QualityRatingAggregateArgs>): Prisma.PrismaPromise<GetQualityRatingAggregateType<T>>
+
+    /**
+     * Group by QualityRating.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QualityRatingGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends QualityRatingGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: QualityRatingGroupByArgs['orderBy'] }
+        : { orderBy?: QualityRatingGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, QualityRatingGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetQualityRatingGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the QualityRating model
+   */
+  readonly fields: QualityRatingFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for QualityRating.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__QualityRatingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the QualityRating model
+   */
+  interface QualityRatingFieldRefs {
+    readonly id: FieldRef<"QualityRating", 'String'>
+    readonly orderId: FieldRef<"QualityRating", 'Int'>
+    readonly farmerId: FieldRef<"QualityRating", 'Int'>
+    readonly buyerId: FieldRef<"QualityRating", 'Int'>
+    readonly rating: FieldRef<"QualityRating", 'Int'>
+    readonly comment: FieldRef<"QualityRating", 'String'>
+    readonly qualityIssues: FieldRef<"QualityRating", 'QualityIssue[]'>
+    readonly cropType: FieldRef<"QualityRating", 'String'>
+    readonly quantityKg: FieldRef<"QualityRating", 'Decimal'>
+    readonly ratedAt: FieldRef<"QualityRating", 'DateTime'>
+    readonly seenByFarmer: FieldRef<"QualityRating", 'Boolean'>
+    readonly seenAt: FieldRef<"QualityRating", 'DateTime'>
+    readonly aiGradedPhotoUrl: FieldRef<"QualityRating", 'String'>
+    readonly buyerPhotoUrl: FieldRef<"QualityRating", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * QualityRating findUnique
+   */
+  export type QualityRatingFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QualityRating
+     */
+    select?: QualityRatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QualityRating
+     */
+    omit?: QualityRatingOmit<ExtArgs> | null
+    /**
+     * Filter, which QualityRating to fetch.
+     */
+    where: QualityRatingWhereUniqueInput
+  }
+
+  /**
+   * QualityRating findUniqueOrThrow
+   */
+  export type QualityRatingFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QualityRating
+     */
+    select?: QualityRatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QualityRating
+     */
+    omit?: QualityRatingOmit<ExtArgs> | null
+    /**
+     * Filter, which QualityRating to fetch.
+     */
+    where: QualityRatingWhereUniqueInput
+  }
+
+  /**
+   * QualityRating findFirst
+   */
+  export type QualityRatingFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QualityRating
+     */
+    select?: QualityRatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QualityRating
+     */
+    omit?: QualityRatingOmit<ExtArgs> | null
+    /**
+     * Filter, which QualityRating to fetch.
+     */
+    where?: QualityRatingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QualityRatings to fetch.
+     */
+    orderBy?: QualityRatingOrderByWithRelationInput | QualityRatingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for QualityRatings.
+     */
+    cursor?: QualityRatingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QualityRatings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QualityRatings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of QualityRatings.
+     */
+    distinct?: QualityRatingScalarFieldEnum | QualityRatingScalarFieldEnum[]
+  }
+
+  /**
+   * QualityRating findFirstOrThrow
+   */
+  export type QualityRatingFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QualityRating
+     */
+    select?: QualityRatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QualityRating
+     */
+    omit?: QualityRatingOmit<ExtArgs> | null
+    /**
+     * Filter, which QualityRating to fetch.
+     */
+    where?: QualityRatingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QualityRatings to fetch.
+     */
+    orderBy?: QualityRatingOrderByWithRelationInput | QualityRatingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for QualityRatings.
+     */
+    cursor?: QualityRatingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QualityRatings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QualityRatings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of QualityRatings.
+     */
+    distinct?: QualityRatingScalarFieldEnum | QualityRatingScalarFieldEnum[]
+  }
+
+  /**
+   * QualityRating findMany
+   */
+  export type QualityRatingFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QualityRating
+     */
+    select?: QualityRatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QualityRating
+     */
+    omit?: QualityRatingOmit<ExtArgs> | null
+    /**
+     * Filter, which QualityRatings to fetch.
+     */
+    where?: QualityRatingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QualityRatings to fetch.
+     */
+    orderBy?: QualityRatingOrderByWithRelationInput | QualityRatingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing QualityRatings.
+     */
+    cursor?: QualityRatingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QualityRatings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QualityRatings.
+     */
+    skip?: number
+    distinct?: QualityRatingScalarFieldEnum | QualityRatingScalarFieldEnum[]
+  }
+
+  /**
+   * QualityRating create
+   */
+  export type QualityRatingCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QualityRating
+     */
+    select?: QualityRatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QualityRating
+     */
+    omit?: QualityRatingOmit<ExtArgs> | null
+    /**
+     * The data needed to create a QualityRating.
+     */
+    data: XOR<QualityRatingCreateInput, QualityRatingUncheckedCreateInput>
+  }
+
+  /**
+   * QualityRating createMany
+   */
+  export type QualityRatingCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many QualityRatings.
+     */
+    data: QualityRatingCreateManyInput | QualityRatingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * QualityRating createManyAndReturn
+   */
+  export type QualityRatingCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QualityRating
+     */
+    select?: QualityRatingSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the QualityRating
+     */
+    omit?: QualityRatingOmit<ExtArgs> | null
+    /**
+     * The data used to create many QualityRatings.
+     */
+    data: QualityRatingCreateManyInput | QualityRatingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * QualityRating update
+   */
+  export type QualityRatingUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QualityRating
+     */
+    select?: QualityRatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QualityRating
+     */
+    omit?: QualityRatingOmit<ExtArgs> | null
+    /**
+     * The data needed to update a QualityRating.
+     */
+    data: XOR<QualityRatingUpdateInput, QualityRatingUncheckedUpdateInput>
+    /**
+     * Choose, which QualityRating to update.
+     */
+    where: QualityRatingWhereUniqueInput
+  }
+
+  /**
+   * QualityRating updateMany
+   */
+  export type QualityRatingUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update QualityRatings.
+     */
+    data: XOR<QualityRatingUpdateManyMutationInput, QualityRatingUncheckedUpdateManyInput>
+    /**
+     * Filter which QualityRatings to update
+     */
+    where?: QualityRatingWhereInput
+    /**
+     * Limit how many QualityRatings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * QualityRating updateManyAndReturn
+   */
+  export type QualityRatingUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QualityRating
+     */
+    select?: QualityRatingSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the QualityRating
+     */
+    omit?: QualityRatingOmit<ExtArgs> | null
+    /**
+     * The data used to update QualityRatings.
+     */
+    data: XOR<QualityRatingUpdateManyMutationInput, QualityRatingUncheckedUpdateManyInput>
+    /**
+     * Filter which QualityRatings to update
+     */
+    where?: QualityRatingWhereInput
+    /**
+     * Limit how many QualityRatings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * QualityRating upsert
+   */
+  export type QualityRatingUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QualityRating
+     */
+    select?: QualityRatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QualityRating
+     */
+    omit?: QualityRatingOmit<ExtArgs> | null
+    /**
+     * The filter to search for the QualityRating to update in case it exists.
+     */
+    where: QualityRatingWhereUniqueInput
+    /**
+     * In case the QualityRating found by the `where` argument doesn't exist, create a new QualityRating with this data.
+     */
+    create: XOR<QualityRatingCreateInput, QualityRatingUncheckedCreateInput>
+    /**
+     * In case the QualityRating was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<QualityRatingUpdateInput, QualityRatingUncheckedUpdateInput>
+  }
+
+  /**
+   * QualityRating delete
+   */
+  export type QualityRatingDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QualityRating
+     */
+    select?: QualityRatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QualityRating
+     */
+    omit?: QualityRatingOmit<ExtArgs> | null
+    /**
+     * Filter which QualityRating to delete.
+     */
+    where: QualityRatingWhereUniqueInput
+  }
+
+  /**
+   * QualityRating deleteMany
+   */
+  export type QualityRatingDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which QualityRatings to delete
+     */
+    where?: QualityRatingWhereInput
+    /**
+     * Limit how many QualityRatings to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * QualityRating without action
+   */
+  export type QualityRatingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QualityRating
+     */
+    select?: QualityRatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QualityRating
+     */
+    omit?: QualityRatingOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -5015,6 +6279,26 @@ export namespace Prisma {
   };
 
   export type MatchScalarFieldEnum = (typeof MatchScalarFieldEnum)[keyof typeof MatchScalarFieldEnum]
+
+
+  export const QualityRatingScalarFieldEnum: {
+    id: 'id',
+    orderId: 'orderId',
+    farmerId: 'farmerId',
+    buyerId: 'buyerId',
+    rating: 'rating',
+    comment: 'comment',
+    qualityIssues: 'qualityIssues',
+    cropType: 'cropType',
+    quantityKg: 'quantityKg',
+    ratedAt: 'ratedAt',
+    seenByFarmer: 'seenByFarmer',
+    seenAt: 'seenAt',
+    aiGradedPhotoUrl: 'aiGradedPhotoUrl',
+    buyerPhotoUrl: 'buyerPhotoUrl'
+  };
+
+  export type QualityRatingScalarFieldEnum = (typeof QualityRatingScalarFieldEnum)[keyof typeof QualityRatingScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -5171,6 +6455,27 @@ export namespace Prisma {
    * Reference to a field of type 'MatchStatus[]'
    */
   export type ListEnumMatchStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MatchStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'QualityIssue[]'
+   */
+  export type ListEnumQualityIssueFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QualityIssue[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'QualityIssue'
+   */
+  export type EnumQualityIssueFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QualityIssue'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -5567,6 +6872,105 @@ export namespace Prisma {
     buyerCity?: StringWithAggregatesFilter<"Match"> | string
     buyerArea?: StringNullableWithAggregatesFilter<"Match"> | string | null
     deliveryDate?: StringNullableWithAggregatesFilter<"Match"> | string | null
+  }
+
+  export type QualityRatingWhereInput = {
+    AND?: QualityRatingWhereInput | QualityRatingWhereInput[]
+    OR?: QualityRatingWhereInput[]
+    NOT?: QualityRatingWhereInput | QualityRatingWhereInput[]
+    id?: UuidFilter<"QualityRating"> | string
+    orderId?: IntFilter<"QualityRating"> | number
+    farmerId?: IntFilter<"QualityRating"> | number
+    buyerId?: IntFilter<"QualityRating"> | number
+    rating?: IntFilter<"QualityRating"> | number
+    comment?: StringNullableFilter<"QualityRating"> | string | null
+    qualityIssues?: EnumQualityIssueNullableListFilter<"QualityRating">
+    cropType?: StringFilter<"QualityRating"> | string
+    quantityKg?: DecimalFilter<"QualityRating"> | Decimal | DecimalJsLike | number | string
+    ratedAt?: DateTimeFilter<"QualityRating"> | Date | string
+    seenByFarmer?: BoolFilter<"QualityRating"> | boolean
+    seenAt?: DateTimeNullableFilter<"QualityRating"> | Date | string | null
+    aiGradedPhotoUrl?: StringNullableFilter<"QualityRating"> | string | null
+    buyerPhotoUrl?: StringNullableFilter<"QualityRating"> | string | null
+  }
+
+  export type QualityRatingOrderByWithRelationInput = {
+    id?: SortOrder
+    orderId?: SortOrder
+    farmerId?: SortOrder
+    buyerId?: SortOrder
+    rating?: SortOrder
+    comment?: SortOrderInput | SortOrder
+    qualityIssues?: SortOrder
+    cropType?: SortOrder
+    quantityKg?: SortOrder
+    ratedAt?: SortOrder
+    seenByFarmer?: SortOrder
+    seenAt?: SortOrderInput | SortOrder
+    aiGradedPhotoUrl?: SortOrderInput | SortOrder
+    buyerPhotoUrl?: SortOrderInput | SortOrder
+  }
+
+  export type QualityRatingWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: QualityRatingWhereInput | QualityRatingWhereInput[]
+    OR?: QualityRatingWhereInput[]
+    NOT?: QualityRatingWhereInput | QualityRatingWhereInput[]
+    orderId?: IntFilter<"QualityRating"> | number
+    farmerId?: IntFilter<"QualityRating"> | number
+    buyerId?: IntFilter<"QualityRating"> | number
+    rating?: IntFilter<"QualityRating"> | number
+    comment?: StringNullableFilter<"QualityRating"> | string | null
+    qualityIssues?: EnumQualityIssueNullableListFilter<"QualityRating">
+    cropType?: StringFilter<"QualityRating"> | string
+    quantityKg?: DecimalFilter<"QualityRating"> | Decimal | DecimalJsLike | number | string
+    ratedAt?: DateTimeFilter<"QualityRating"> | Date | string
+    seenByFarmer?: BoolFilter<"QualityRating"> | boolean
+    seenAt?: DateTimeNullableFilter<"QualityRating"> | Date | string | null
+    aiGradedPhotoUrl?: StringNullableFilter<"QualityRating"> | string | null
+    buyerPhotoUrl?: StringNullableFilter<"QualityRating"> | string | null
+  }, "id">
+
+  export type QualityRatingOrderByWithAggregationInput = {
+    id?: SortOrder
+    orderId?: SortOrder
+    farmerId?: SortOrder
+    buyerId?: SortOrder
+    rating?: SortOrder
+    comment?: SortOrderInput | SortOrder
+    qualityIssues?: SortOrder
+    cropType?: SortOrder
+    quantityKg?: SortOrder
+    ratedAt?: SortOrder
+    seenByFarmer?: SortOrder
+    seenAt?: SortOrderInput | SortOrder
+    aiGradedPhotoUrl?: SortOrderInput | SortOrder
+    buyerPhotoUrl?: SortOrderInput | SortOrder
+    _count?: QualityRatingCountOrderByAggregateInput
+    _avg?: QualityRatingAvgOrderByAggregateInput
+    _max?: QualityRatingMaxOrderByAggregateInput
+    _min?: QualityRatingMinOrderByAggregateInput
+    _sum?: QualityRatingSumOrderByAggregateInput
+  }
+
+  export type QualityRatingScalarWhereWithAggregatesInput = {
+    AND?: QualityRatingScalarWhereWithAggregatesInput | QualityRatingScalarWhereWithAggregatesInput[]
+    OR?: QualityRatingScalarWhereWithAggregatesInput[]
+    NOT?: QualityRatingScalarWhereWithAggregatesInput | QualityRatingScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"QualityRating"> | string
+    orderId?: IntWithAggregatesFilter<"QualityRating"> | number
+    farmerId?: IntWithAggregatesFilter<"QualityRating"> | number
+    buyerId?: IntWithAggregatesFilter<"QualityRating"> | number
+    rating?: IntWithAggregatesFilter<"QualityRating"> | number
+    comment?: StringNullableWithAggregatesFilter<"QualityRating"> | string | null
+    qualityIssues?: EnumQualityIssueNullableListFilter<"QualityRating">
+    cropType?: StringWithAggregatesFilter<"QualityRating"> | string
+    quantityKg?: DecimalWithAggregatesFilter<"QualityRating"> | Decimal | DecimalJsLike | number | string
+    ratedAt?: DateTimeWithAggregatesFilter<"QualityRating"> | Date | string
+    seenByFarmer?: BoolWithAggregatesFilter<"QualityRating"> | boolean
+    seenAt?: DateTimeNullableWithAggregatesFilter<"QualityRating"> | Date | string | null
+    aiGradedPhotoUrl?: StringNullableWithAggregatesFilter<"QualityRating"> | string | null
+    buyerPhotoUrl?: StringNullableWithAggregatesFilter<"QualityRating"> | string | null
   }
 
   export type OrderCreateInput = {
@@ -6026,6 +7430,125 @@ export namespace Prisma {
     buyerCity?: StringFieldUpdateOperationsInput | string
     buyerArea?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryDate?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type QualityRatingCreateInput = {
+    id?: string
+    orderId: number
+    farmerId: number
+    buyerId: number
+    rating: number
+    comment?: string | null
+    qualityIssues?: QualityRatingCreatequalityIssuesInput | $Enums.QualityIssue[]
+    cropType: string
+    quantityKg: Decimal | DecimalJsLike | number | string
+    ratedAt?: Date | string
+    seenByFarmer?: boolean
+    seenAt?: Date | string | null
+    aiGradedPhotoUrl?: string | null
+    buyerPhotoUrl?: string | null
+  }
+
+  export type QualityRatingUncheckedCreateInput = {
+    id?: string
+    orderId: number
+    farmerId: number
+    buyerId: number
+    rating: number
+    comment?: string | null
+    qualityIssues?: QualityRatingCreatequalityIssuesInput | $Enums.QualityIssue[]
+    cropType: string
+    quantityKg: Decimal | DecimalJsLike | number | string
+    ratedAt?: Date | string
+    seenByFarmer?: boolean
+    seenAt?: Date | string | null
+    aiGradedPhotoUrl?: string | null
+    buyerPhotoUrl?: string | null
+  }
+
+  export type QualityRatingUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderId?: IntFieldUpdateOperationsInput | number
+    farmerId?: IntFieldUpdateOperationsInput | number
+    buyerId?: IntFieldUpdateOperationsInput | number
+    rating?: IntFieldUpdateOperationsInput | number
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    qualityIssues?: QualityRatingUpdatequalityIssuesInput | $Enums.QualityIssue[]
+    cropType?: StringFieldUpdateOperationsInput | string
+    quantityKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    ratedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    seenByFarmer?: BoolFieldUpdateOperationsInput | boolean
+    seenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiGradedPhotoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerPhotoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type QualityRatingUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderId?: IntFieldUpdateOperationsInput | number
+    farmerId?: IntFieldUpdateOperationsInput | number
+    buyerId?: IntFieldUpdateOperationsInput | number
+    rating?: IntFieldUpdateOperationsInput | number
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    qualityIssues?: QualityRatingUpdatequalityIssuesInput | $Enums.QualityIssue[]
+    cropType?: StringFieldUpdateOperationsInput | string
+    quantityKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    ratedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    seenByFarmer?: BoolFieldUpdateOperationsInput | boolean
+    seenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiGradedPhotoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerPhotoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type QualityRatingCreateManyInput = {
+    id?: string
+    orderId: number
+    farmerId: number
+    buyerId: number
+    rating: number
+    comment?: string | null
+    qualityIssues?: QualityRatingCreatequalityIssuesInput | $Enums.QualityIssue[]
+    cropType: string
+    quantityKg: Decimal | DecimalJsLike | number | string
+    ratedAt?: Date | string
+    seenByFarmer?: boolean
+    seenAt?: Date | string | null
+    aiGradedPhotoUrl?: string | null
+    buyerPhotoUrl?: string | null
+  }
+
+  export type QualityRatingUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderId?: IntFieldUpdateOperationsInput | number
+    farmerId?: IntFieldUpdateOperationsInput | number
+    buyerId?: IntFieldUpdateOperationsInput | number
+    rating?: IntFieldUpdateOperationsInput | number
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    qualityIssues?: QualityRatingUpdatequalityIssuesInput | $Enums.QualityIssue[]
+    cropType?: StringFieldUpdateOperationsInput | string
+    quantityKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    ratedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    seenByFarmer?: BoolFieldUpdateOperationsInput | boolean
+    seenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiGradedPhotoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerPhotoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type QualityRatingUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderId?: IntFieldUpdateOperationsInput | number
+    farmerId?: IntFieldUpdateOperationsInput | number
+    buyerId?: IntFieldUpdateOperationsInput | number
+    rating?: IntFieldUpdateOperationsInput | number
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    qualityIssues?: QualityRatingUpdatequalityIssuesInput | $Enums.QualityIssue[]
+    cropType?: StringFieldUpdateOperationsInput | string
+    quantityKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    ratedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    seenByFarmer?: BoolFieldUpdateOperationsInput | boolean
+    seenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiGradedPhotoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerPhotoUrl?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -6645,6 +8168,92 @@ export namespace Prisma {
     _max?: NestedEnumMatchStatusFilter<$PrismaModel>
   }
 
+  export type EnumQualityIssueNullableListFilter<$PrismaModel = never> = {
+    equals?: $Enums.QualityIssue[] | ListEnumQualityIssueFieldRefInput<$PrismaModel> | null
+    has?: $Enums.QualityIssue | EnumQualityIssueFieldRefInput<$PrismaModel> | null
+    hasEvery?: $Enums.QualityIssue[] | ListEnumQualityIssueFieldRefInput<$PrismaModel>
+    hasSome?: $Enums.QualityIssue[] | ListEnumQualityIssueFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type QualityRatingCountOrderByAggregateInput = {
+    id?: SortOrder
+    orderId?: SortOrder
+    farmerId?: SortOrder
+    buyerId?: SortOrder
+    rating?: SortOrder
+    comment?: SortOrder
+    qualityIssues?: SortOrder
+    cropType?: SortOrder
+    quantityKg?: SortOrder
+    ratedAt?: SortOrder
+    seenByFarmer?: SortOrder
+    seenAt?: SortOrder
+    aiGradedPhotoUrl?: SortOrder
+    buyerPhotoUrl?: SortOrder
+  }
+
+  export type QualityRatingAvgOrderByAggregateInput = {
+    orderId?: SortOrder
+    farmerId?: SortOrder
+    buyerId?: SortOrder
+    rating?: SortOrder
+    quantityKg?: SortOrder
+  }
+
+  export type QualityRatingMaxOrderByAggregateInput = {
+    id?: SortOrder
+    orderId?: SortOrder
+    farmerId?: SortOrder
+    buyerId?: SortOrder
+    rating?: SortOrder
+    comment?: SortOrder
+    cropType?: SortOrder
+    quantityKg?: SortOrder
+    ratedAt?: SortOrder
+    seenByFarmer?: SortOrder
+    seenAt?: SortOrder
+    aiGradedPhotoUrl?: SortOrder
+    buyerPhotoUrl?: SortOrder
+  }
+
+  export type QualityRatingMinOrderByAggregateInput = {
+    id?: SortOrder
+    orderId?: SortOrder
+    farmerId?: SortOrder
+    buyerId?: SortOrder
+    rating?: SortOrder
+    comment?: SortOrder
+    cropType?: SortOrder
+    quantityKg?: SortOrder
+    ratedAt?: SortOrder
+    seenByFarmer?: SortOrder
+    seenAt?: SortOrder
+    aiGradedPhotoUrl?: SortOrder
+    buyerPhotoUrl?: SortOrder
+  }
+
+  export type QualityRatingSumOrderByAggregateInput = {
+    orderId?: SortOrder
+    farmerId?: SortOrder
+    buyerId?: SortOrder
+    rating?: SortOrder
+    quantityKg?: SortOrder
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type OrderItemCreateNestedManyWithoutOrderInput = {
     create?: XOR<OrderItemCreateWithoutOrderInput, OrderItemUncheckedCreateWithoutOrderInput> | OrderItemCreateWithoutOrderInput[] | OrderItemUncheckedCreateWithoutOrderInput[]
     connectOrCreate?: OrderItemCreateOrConnectWithoutOrderInput | OrderItemCreateOrConnectWithoutOrderInput[]
@@ -6759,6 +8368,19 @@ export namespace Prisma {
 
   export type EnumMatchStatusFieldUpdateOperationsInput = {
     set?: $Enums.MatchStatus
+  }
+
+  export type QualityRatingCreatequalityIssuesInput = {
+    set: $Enums.QualityIssue[]
+  }
+
+  export type QualityRatingUpdatequalityIssuesInput = {
+    set?: $Enums.QualityIssue[]
+    push?: $Enums.QualityIssue | $Enums.QualityIssue[]
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -7100,6 +8722,19 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumMatchStatusFilter<$PrismaModel>
     _max?: NestedEnumMatchStatusFilter<$PrismaModel>
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type OrderItemCreateWithoutOrderInput = {
