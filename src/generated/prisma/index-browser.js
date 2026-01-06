@@ -153,7 +153,13 @@ exports.Prisma.OrderScalarFieldEnum = {
   baseAmount: 'baseAmount',
   qualityBonus: 'qualityBonus',
   dropPointName: 'dropPointName',
-  dropPointAddress: 'dropPointAddress'
+  dropPointAddress: 'dropPointAddress',
+  deliveryAddressId: 'deliveryAddressId',
+  deliveryTimePref: 'deliveryTimePref',
+  paymentStatus: 'paymentStatus',
+  escrowTransactionId: 'escrowTransactionId',
+  pricePerKg: 'pricePerKg',
+  farmerZone: 'farmerZone'
 };
 
 exports.Prisma.OrderItemScalarFieldEnum = {
@@ -243,6 +249,21 @@ exports.TrackingStatus = exports.$Enums.TrackingStatus = {
   IN_TRANSIT: 'IN_TRANSIT',
   DELIVERED: 'DELIVERED',
   PAID: 'PAID'
+};
+
+exports.DeliveryTimePref = exports.$Enums.DeliveryTimePref = {
+  MORNING: 'MORNING',
+  AFTERNOON: 'AFTERNOON',
+  EVENING: 'EVENING'
+};
+
+exports.PaymentStatus = exports.$Enums.PaymentStatus = {
+  PENDING: 'PENDING',
+  PENDING_PAYMENT: 'PENDING_PAYMENT',
+  SECURED: 'SECURED',
+  RELEASED: 'RELEASED',
+  REFUNDED: 'REFUNDED',
+  FAILED: 'FAILED'
 };
 
 exports.MatchStatus = exports.$Enums.MatchStatus = {

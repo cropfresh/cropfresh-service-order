@@ -61,10 +61,20 @@ model Order {
   dropPointName    String?   @map("drop_point_name") @db.VarChar(100)
   dropPointAddress String?   @map("drop_point_address") @db.VarChar(200)
 
+  // Story 4.3 - Buyer Order Placement (AC2, AC3, AC6, AC10)
+  deliveryAddressId   String?           @map("delivery_address_id") @db.VarChar(50)
+  deliveryTimePref    DeliveryTimePref? @map("delivery_time_pref")
+  paymentStatus       PaymentStatus     @default(PENDING) @map("payment_status")
+  escrowTransactionId String?           @map("escrow_transaction_id") @db.VarChar(100)
+  pricePerKg          Decimal?          @map("price_per_kg") @db.Decimal(10, 2)
+  farmerZone          String?           @map("farmer_zone") @db.VarChar(100)
+
   items OrderItem[]
 
   @@index([farmerId])
+  @@index([buyerId])
   @@index([trackingStatus])
+  @@index([paymentStatus])
   @@index([createdAt(sort: Desc)])
   @@map("orders")
 }
@@ -140,7 +150,23 @@ enum MatchStatus {
   EXPIRED
 }
 
-// Story 3.10 - Quality Ratings
+// Story 4.3 - Delivery Time Preference (AC3)
+enum DeliveryTimePref {
+  MORNING // 6AM - 12PM
+  AFTERNOON // 12PM - 5PM
+  EVENING // 5PM - 9PM
+}
+
+// Story 4.3 - Payment Status (AC6, AC10)
+enum PaymentStatus {
+  PENDING // Order created, awaiting payment
+  PENDING_PAYMENT // Payment initiated
+  SECURED // Payment in escrow
+  RELEASED // Payment released to farmer
+  REFUNDED // Payment refunded to buyer
+  FAILED // Payment failed
+}
+
 model QualityRating {
   id            String         @id @default(uuid()) @db.Uuid
   orderId       Int            @map("order_id")

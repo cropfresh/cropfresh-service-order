@@ -72,6 +72,27 @@ export const MatchStatus: {
 export type MatchStatus = (typeof MatchStatus)[keyof typeof MatchStatus]
 
 
+export const DeliveryTimePref: {
+  MORNING: 'MORNING',
+  AFTERNOON: 'AFTERNOON',
+  EVENING: 'EVENING'
+};
+
+export type DeliveryTimePref = (typeof DeliveryTimePref)[keyof typeof DeliveryTimePref]
+
+
+export const PaymentStatus: {
+  PENDING: 'PENDING',
+  PENDING_PAYMENT: 'PENDING_PAYMENT',
+  SECURED: 'SECURED',
+  RELEASED: 'RELEASED',
+  REFUNDED: 'REFUNDED',
+  FAILED: 'FAILED'
+};
+
+export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
+
+
 export const QualityIssue: {
   BRUISING: 'BRUISING',
   SIZE_INCONSISTENCY: 'SIZE_INCONSISTENCY',
@@ -95,6 +116,14 @@ export const TrackingStatus: typeof $Enums.TrackingStatus
 export type MatchStatus = $Enums.MatchStatus
 
 export const MatchStatus: typeof $Enums.MatchStatus
+
+export type DeliveryTimePref = $Enums.DeliveryTimePref
+
+export const DeliveryTimePref: typeof $Enums.DeliveryTimePref
+
+export type PaymentStatus = $Enums.PaymentStatus
+
+export const PaymentStatus: typeof $Enums.PaymentStatus
 
 export type QualityIssue = $Enums.QualityIssue
 
@@ -1236,6 +1265,7 @@ export namespace Prisma {
     delayMinutes: number | null
     baseAmount: Decimal | null
     qualityBonus: Decimal | null
+    pricePerKg: Decimal | null
   }
 
   export type OrderSumAggregateOutputType = {
@@ -1247,6 +1277,7 @@ export namespace Prisma {
     delayMinutes: number | null
     baseAmount: Decimal | null
     qualityBonus: Decimal | null
+    pricePerKg: Decimal | null
   }
 
   export type OrderMinAggregateOutputType = {
@@ -1282,6 +1313,12 @@ export namespace Prisma {
     qualityBonus: Decimal | null
     dropPointName: string | null
     dropPointAddress: string | null
+    deliveryAddressId: string | null
+    deliveryTimePref: $Enums.DeliveryTimePref | null
+    paymentStatus: $Enums.PaymentStatus | null
+    escrowTransactionId: string | null
+    pricePerKg: Decimal | null
+    farmerZone: string | null
   }
 
   export type OrderMaxAggregateOutputType = {
@@ -1317,6 +1354,12 @@ export namespace Prisma {
     qualityBonus: Decimal | null
     dropPointName: string | null
     dropPointAddress: string | null
+    deliveryAddressId: string | null
+    deliveryTimePref: $Enums.DeliveryTimePref | null
+    paymentStatus: $Enums.PaymentStatus | null
+    escrowTransactionId: string | null
+    pricePerKg: Decimal | null
+    farmerZone: string | null
   }
 
   export type OrderCountAggregateOutputType = {
@@ -1353,6 +1396,12 @@ export namespace Prisma {
     qualityBonus: number
     dropPointName: number
     dropPointAddress: number
+    deliveryAddressId: number
+    deliveryTimePref: number
+    paymentStatus: number
+    escrowTransactionId: number
+    pricePerKg: number
+    farmerZone: number
     _all: number
   }
 
@@ -1366,6 +1415,7 @@ export namespace Prisma {
     delayMinutes?: true
     baseAmount?: true
     qualityBonus?: true
+    pricePerKg?: true
   }
 
   export type OrderSumAggregateInputType = {
@@ -1377,6 +1427,7 @@ export namespace Prisma {
     delayMinutes?: true
     baseAmount?: true
     qualityBonus?: true
+    pricePerKg?: true
   }
 
   export type OrderMinAggregateInputType = {
@@ -1412,6 +1463,12 @@ export namespace Prisma {
     qualityBonus?: true
     dropPointName?: true
     dropPointAddress?: true
+    deliveryAddressId?: true
+    deliveryTimePref?: true
+    paymentStatus?: true
+    escrowTransactionId?: true
+    pricePerKg?: true
+    farmerZone?: true
   }
 
   export type OrderMaxAggregateInputType = {
@@ -1447,6 +1504,12 @@ export namespace Prisma {
     qualityBonus?: true
     dropPointName?: true
     dropPointAddress?: true
+    deliveryAddressId?: true
+    deliveryTimePref?: true
+    paymentStatus?: true
+    escrowTransactionId?: true
+    pricePerKg?: true
+    farmerZone?: true
   }
 
   export type OrderCountAggregateInputType = {
@@ -1483,6 +1546,12 @@ export namespace Prisma {
     qualityBonus?: true
     dropPointName?: true
     dropPointAddress?: true
+    deliveryAddressId?: true
+    deliveryTimePref?: true
+    paymentStatus?: true
+    escrowTransactionId?: true
+    pricePerKg?: true
+    farmerZone?: true
     _all?: true
   }
 
@@ -1606,6 +1675,12 @@ export namespace Prisma {
     qualityBonus: Decimal | null
     dropPointName: string | null
     dropPointAddress: string | null
+    deliveryAddressId: string | null
+    deliveryTimePref: $Enums.DeliveryTimePref | null
+    paymentStatus: $Enums.PaymentStatus
+    escrowTransactionId: string | null
+    pricePerKg: Decimal | null
+    farmerZone: string | null
     _count: OrderCountAggregateOutputType | null
     _avg: OrderAvgAggregateOutputType | null
     _sum: OrderSumAggregateOutputType | null
@@ -1661,6 +1736,12 @@ export namespace Prisma {
     qualityBonus?: boolean
     dropPointName?: boolean
     dropPointAddress?: boolean
+    deliveryAddressId?: boolean
+    deliveryTimePref?: boolean
+    paymentStatus?: boolean
+    escrowTransactionId?: boolean
+    pricePerKg?: boolean
+    farmerZone?: boolean
     items?: boolean | Order$itemsArgs<ExtArgs>
     _count?: boolean | OrderCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["order"]>
@@ -1699,6 +1780,12 @@ export namespace Prisma {
     qualityBonus?: boolean
     dropPointName?: boolean
     dropPointAddress?: boolean
+    deliveryAddressId?: boolean
+    deliveryTimePref?: boolean
+    paymentStatus?: boolean
+    escrowTransactionId?: boolean
+    pricePerKg?: boolean
+    farmerZone?: boolean
   }, ExtArgs["result"]["order"]>
 
   export type OrderSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1735,6 +1822,12 @@ export namespace Prisma {
     qualityBonus?: boolean
     dropPointName?: boolean
     dropPointAddress?: boolean
+    deliveryAddressId?: boolean
+    deliveryTimePref?: boolean
+    paymentStatus?: boolean
+    escrowTransactionId?: boolean
+    pricePerKg?: boolean
+    farmerZone?: boolean
   }, ExtArgs["result"]["order"]>
 
   export type OrderSelectScalar = {
@@ -1771,9 +1864,15 @@ export namespace Prisma {
     qualityBonus?: boolean
     dropPointName?: boolean
     dropPointAddress?: boolean
+    deliveryAddressId?: boolean
+    deliveryTimePref?: boolean
+    paymentStatus?: boolean
+    escrowTransactionId?: boolean
+    pricePerKg?: boolean
+    farmerZone?: boolean
   }
 
-  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orderNumber" | "farmerId" | "buyerId" | "status" | "totalAmount" | "createdAt" | "updatedAt" | "deletedAt" | "trackingStatus" | "statusHistory" | "listingId" | "cropType" | "cropEmoji" | "quantityKg" | "photoUrl" | "buyerBusinessType" | "buyerCity" | "buyerArea" | "haulerId" | "haulerName" | "haulerPhone" | "haulerVehicle" | "eta" | "delayMinutes" | "delayReason" | "upiTransactionId" | "paidAt" | "qualityGrade" | "baseAmount" | "qualityBonus" | "dropPointName" | "dropPointAddress", ExtArgs["result"]["order"]>
+  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orderNumber" | "farmerId" | "buyerId" | "status" | "totalAmount" | "createdAt" | "updatedAt" | "deletedAt" | "trackingStatus" | "statusHistory" | "listingId" | "cropType" | "cropEmoji" | "quantityKg" | "photoUrl" | "buyerBusinessType" | "buyerCity" | "buyerArea" | "haulerId" | "haulerName" | "haulerPhone" | "haulerVehicle" | "eta" | "delayMinutes" | "delayReason" | "upiTransactionId" | "paidAt" | "qualityGrade" | "baseAmount" | "qualityBonus" | "dropPointName" | "dropPointAddress" | "deliveryAddressId" | "deliveryTimePref" | "paymentStatus" | "escrowTransactionId" | "pricePerKg" | "farmerZone", ExtArgs["result"]["order"]>
   export type OrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     items?: boolean | Order$itemsArgs<ExtArgs>
     _count?: boolean | OrderCountOutputTypeDefaultArgs<ExtArgs>
@@ -1820,6 +1919,12 @@ export namespace Prisma {
       qualityBonus: Prisma.Decimal | null
       dropPointName: string | null
       dropPointAddress: string | null
+      deliveryAddressId: string | null
+      deliveryTimePref: $Enums.DeliveryTimePref | null
+      paymentStatus: $Enums.PaymentStatus
+      escrowTransactionId: string | null
+      pricePerKg: Prisma.Decimal | null
+      farmerZone: string | null
     }, ExtArgs["result"]["order"]>
     composites: {}
   }
@@ -2277,6 +2382,12 @@ export namespace Prisma {
     readonly qualityBonus: FieldRef<"Order", 'Decimal'>
     readonly dropPointName: FieldRef<"Order", 'String'>
     readonly dropPointAddress: FieldRef<"Order", 'String'>
+    readonly deliveryAddressId: FieldRef<"Order", 'String'>
+    readonly deliveryTimePref: FieldRef<"Order", 'DeliveryTimePref'>
+    readonly paymentStatus: FieldRef<"Order", 'PaymentStatus'>
+    readonly escrowTransactionId: FieldRef<"Order", 'String'>
+    readonly pricePerKg: FieldRef<"Order", 'Decimal'>
+    readonly farmerZone: FieldRef<"Order", 'String'>
   }
     
 
@@ -6239,7 +6350,13 @@ export namespace Prisma {
     baseAmount: 'baseAmount',
     qualityBonus: 'qualityBonus',
     dropPointName: 'dropPointName',
-    dropPointAddress: 'dropPointAddress'
+    dropPointAddress: 'dropPointAddress',
+    deliveryAddressId: 'deliveryAddressId',
+    deliveryTimePref: 'deliveryTimePref',
+    paymentStatus: 'paymentStatus',
+    escrowTransactionId: 'escrowTransactionId',
+    pricePerKg: 'pricePerKg',
+    farmerZone: 'farmerZone'
   };
 
   export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
@@ -6445,6 +6562,34 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'DeliveryTimePref'
+   */
+  export type EnumDeliveryTimePrefFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DeliveryTimePref'>
+    
+
+
+  /**
+   * Reference to a field of type 'DeliveryTimePref[]'
+   */
+  export type ListEnumDeliveryTimePrefFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DeliveryTimePref[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'PaymentStatus'
+   */
+  export type EnumPaymentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'PaymentStatus[]'
+   */
+  export type ListEnumPaymentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'MatchStatus'
    */
   export type EnumMatchStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MatchStatus'>
@@ -6533,6 +6678,12 @@ export namespace Prisma {
     qualityBonus?: DecimalNullableFilter<"Order"> | Decimal | DecimalJsLike | number | string | null
     dropPointName?: StringNullableFilter<"Order"> | string | null
     dropPointAddress?: StringNullableFilter<"Order"> | string | null
+    deliveryAddressId?: StringNullableFilter<"Order"> | string | null
+    deliveryTimePref?: EnumDeliveryTimePrefNullableFilter<"Order"> | $Enums.DeliveryTimePref | null
+    paymentStatus?: EnumPaymentStatusFilter<"Order"> | $Enums.PaymentStatus
+    escrowTransactionId?: StringNullableFilter<"Order"> | string | null
+    pricePerKg?: DecimalNullableFilter<"Order"> | Decimal | DecimalJsLike | number | string | null
+    farmerZone?: StringNullableFilter<"Order"> | string | null
     items?: OrderItemListRelationFilter
   }
 
@@ -6570,6 +6721,12 @@ export namespace Prisma {
     qualityBonus?: SortOrderInput | SortOrder
     dropPointName?: SortOrderInput | SortOrder
     dropPointAddress?: SortOrderInput | SortOrder
+    deliveryAddressId?: SortOrderInput | SortOrder
+    deliveryTimePref?: SortOrderInput | SortOrder
+    paymentStatus?: SortOrder
+    escrowTransactionId?: SortOrderInput | SortOrder
+    pricePerKg?: SortOrderInput | SortOrder
+    farmerZone?: SortOrderInput | SortOrder
     items?: OrderItemOrderByRelationAggregateInput
   }
 
@@ -6610,6 +6767,12 @@ export namespace Prisma {
     qualityBonus?: DecimalNullableFilter<"Order"> | Decimal | DecimalJsLike | number | string | null
     dropPointName?: StringNullableFilter<"Order"> | string | null
     dropPointAddress?: StringNullableFilter<"Order"> | string | null
+    deliveryAddressId?: StringNullableFilter<"Order"> | string | null
+    deliveryTimePref?: EnumDeliveryTimePrefNullableFilter<"Order"> | $Enums.DeliveryTimePref | null
+    paymentStatus?: EnumPaymentStatusFilter<"Order"> | $Enums.PaymentStatus
+    escrowTransactionId?: StringNullableFilter<"Order"> | string | null
+    pricePerKg?: DecimalNullableFilter<"Order"> | Decimal | DecimalJsLike | number | string | null
+    farmerZone?: StringNullableFilter<"Order"> | string | null
     items?: OrderItemListRelationFilter
   }, "id" | "orderNumber">
 
@@ -6647,6 +6810,12 @@ export namespace Prisma {
     qualityBonus?: SortOrderInput | SortOrder
     dropPointName?: SortOrderInput | SortOrder
     dropPointAddress?: SortOrderInput | SortOrder
+    deliveryAddressId?: SortOrderInput | SortOrder
+    deliveryTimePref?: SortOrderInput | SortOrder
+    paymentStatus?: SortOrder
+    escrowTransactionId?: SortOrderInput | SortOrder
+    pricePerKg?: SortOrderInput | SortOrder
+    farmerZone?: SortOrderInput | SortOrder
     _count?: OrderCountOrderByAggregateInput
     _avg?: OrderAvgOrderByAggregateInput
     _max?: OrderMaxOrderByAggregateInput
@@ -6691,6 +6860,12 @@ export namespace Prisma {
     qualityBonus?: DecimalNullableWithAggregatesFilter<"Order"> | Decimal | DecimalJsLike | number | string | null
     dropPointName?: StringNullableWithAggregatesFilter<"Order"> | string | null
     dropPointAddress?: StringNullableWithAggregatesFilter<"Order"> | string | null
+    deliveryAddressId?: StringNullableWithAggregatesFilter<"Order"> | string | null
+    deliveryTimePref?: EnumDeliveryTimePrefNullableWithAggregatesFilter<"Order"> | $Enums.DeliveryTimePref | null
+    paymentStatus?: EnumPaymentStatusWithAggregatesFilter<"Order"> | $Enums.PaymentStatus
+    escrowTransactionId?: StringNullableWithAggregatesFilter<"Order"> | string | null
+    pricePerKg?: DecimalNullableWithAggregatesFilter<"Order"> | Decimal | DecimalJsLike | number | string | null
+    farmerZone?: StringNullableWithAggregatesFilter<"Order"> | string | null
   }
 
   export type OrderItemWhereInput = {
@@ -7006,6 +7181,12 @@ export namespace Prisma {
     qualityBonus?: Decimal | DecimalJsLike | number | string | null
     dropPointName?: string | null
     dropPointAddress?: string | null
+    deliveryAddressId?: string | null
+    deliveryTimePref?: $Enums.DeliveryTimePref | null
+    paymentStatus?: $Enums.PaymentStatus
+    escrowTransactionId?: string | null
+    pricePerKg?: Decimal | DecimalJsLike | number | string | null
+    farmerZone?: string | null
     items?: OrderItemCreateNestedManyWithoutOrderInput
   }
 
@@ -7043,6 +7224,12 @@ export namespace Prisma {
     qualityBonus?: Decimal | DecimalJsLike | number | string | null
     dropPointName?: string | null
     dropPointAddress?: string | null
+    deliveryAddressId?: string | null
+    deliveryTimePref?: $Enums.DeliveryTimePref | null
+    paymentStatus?: $Enums.PaymentStatus
+    escrowTransactionId?: string | null
+    pricePerKg?: Decimal | DecimalJsLike | number | string | null
+    farmerZone?: string | null
     items?: OrderItemUncheckedCreateNestedManyWithoutOrderInput
   }
 
@@ -7079,6 +7266,12 @@ export namespace Prisma {
     qualityBonus?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     dropPointName?: NullableStringFieldUpdateOperationsInput | string | null
     dropPointAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryAddressId?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryTimePref?: NullableEnumDeliveryTimePrefFieldUpdateOperationsInput | $Enums.DeliveryTimePref | null
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    escrowTransactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    pricePerKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    farmerZone?: NullableStringFieldUpdateOperationsInput | string | null
     items?: OrderItemUpdateManyWithoutOrderNestedInput
   }
 
@@ -7116,6 +7309,12 @@ export namespace Prisma {
     qualityBonus?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     dropPointName?: NullableStringFieldUpdateOperationsInput | string | null
     dropPointAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryAddressId?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryTimePref?: NullableEnumDeliveryTimePrefFieldUpdateOperationsInput | $Enums.DeliveryTimePref | null
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    escrowTransactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    pricePerKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    farmerZone?: NullableStringFieldUpdateOperationsInput | string | null
     items?: OrderItemUncheckedUpdateManyWithoutOrderNestedInput
   }
 
@@ -7153,6 +7352,12 @@ export namespace Prisma {
     qualityBonus?: Decimal | DecimalJsLike | number | string | null
     dropPointName?: string | null
     dropPointAddress?: string | null
+    deliveryAddressId?: string | null
+    deliveryTimePref?: $Enums.DeliveryTimePref | null
+    paymentStatus?: $Enums.PaymentStatus
+    escrowTransactionId?: string | null
+    pricePerKg?: Decimal | DecimalJsLike | number | string | null
+    farmerZone?: string | null
   }
 
   export type OrderUpdateManyMutationInput = {
@@ -7188,6 +7393,12 @@ export namespace Prisma {
     qualityBonus?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     dropPointName?: NullableStringFieldUpdateOperationsInput | string | null
     dropPointAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryAddressId?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryTimePref?: NullableEnumDeliveryTimePrefFieldUpdateOperationsInput | $Enums.DeliveryTimePref | null
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    escrowTransactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    pricePerKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    farmerZone?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type OrderUncheckedUpdateManyInput = {
@@ -7224,6 +7435,12 @@ export namespace Prisma {
     qualityBonus?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     dropPointName?: NullableStringFieldUpdateOperationsInput | string | null
     dropPointAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryAddressId?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryTimePref?: NullableEnumDeliveryTimePrefFieldUpdateOperationsInput | $Enums.DeliveryTimePref | null
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    escrowTransactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    pricePerKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    farmerZone?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type OrderItemCreateInput = {
@@ -7684,6 +7901,20 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
+  export type EnumDeliveryTimePrefNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.DeliveryTimePref | EnumDeliveryTimePrefFieldRefInput<$PrismaModel> | null
+    in?: $Enums.DeliveryTimePref[] | ListEnumDeliveryTimePrefFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.DeliveryTimePref[] | ListEnumDeliveryTimePrefFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumDeliveryTimePrefNullableFilter<$PrismaModel> | $Enums.DeliveryTimePref | null
+  }
+
+  export type EnumPaymentStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.PaymentStatus | EnumPaymentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPaymentStatusFilter<$PrismaModel> | $Enums.PaymentStatus
+  }
+
   export type OrderItemListRelationFilter = {
     every?: OrderItemWhereInput
     some?: OrderItemWhereInput
@@ -7733,6 +7964,12 @@ export namespace Prisma {
     qualityBonus?: SortOrder
     dropPointName?: SortOrder
     dropPointAddress?: SortOrder
+    deliveryAddressId?: SortOrder
+    deliveryTimePref?: SortOrder
+    paymentStatus?: SortOrder
+    escrowTransactionId?: SortOrder
+    pricePerKg?: SortOrder
+    farmerZone?: SortOrder
   }
 
   export type OrderAvgOrderByAggregateInput = {
@@ -7744,6 +7981,7 @@ export namespace Prisma {
     delayMinutes?: SortOrder
     baseAmount?: SortOrder
     qualityBonus?: SortOrder
+    pricePerKg?: SortOrder
   }
 
   export type OrderMaxOrderByAggregateInput = {
@@ -7779,6 +8017,12 @@ export namespace Prisma {
     qualityBonus?: SortOrder
     dropPointName?: SortOrder
     dropPointAddress?: SortOrder
+    deliveryAddressId?: SortOrder
+    deliveryTimePref?: SortOrder
+    paymentStatus?: SortOrder
+    escrowTransactionId?: SortOrder
+    pricePerKg?: SortOrder
+    farmerZone?: SortOrder
   }
 
   export type OrderMinOrderByAggregateInput = {
@@ -7814,6 +8058,12 @@ export namespace Prisma {
     qualityBonus?: SortOrder
     dropPointName?: SortOrder
     dropPointAddress?: SortOrder
+    deliveryAddressId?: SortOrder
+    deliveryTimePref?: SortOrder
+    paymentStatus?: SortOrder
+    escrowTransactionId?: SortOrder
+    pricePerKg?: SortOrder
+    farmerZone?: SortOrder
   }
 
   export type OrderSumOrderByAggregateInput = {
@@ -7825,6 +8075,7 @@ export namespace Prisma {
     delayMinutes?: SortOrder
     baseAmount?: SortOrder
     qualityBonus?: SortOrder
+    pricePerKg?: SortOrder
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -7999,6 +8250,26 @@ export namespace Prisma {
     _sum?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedIntNullableFilter<$PrismaModel>
     _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type EnumDeliveryTimePrefNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DeliveryTimePref | EnumDeliveryTimePrefFieldRefInput<$PrismaModel> | null
+    in?: $Enums.DeliveryTimePref[] | ListEnumDeliveryTimePrefFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.DeliveryTimePref[] | ListEnumDeliveryTimePrefFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumDeliveryTimePrefNullableWithAggregatesFilter<$PrismaModel> | $Enums.DeliveryTimePref | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumDeliveryTimePrefNullableFilter<$PrismaModel>
+    _max?: NestedEnumDeliveryTimePrefNullableFilter<$PrismaModel>
+  }
+
+  export type EnumPaymentStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PaymentStatus | EnumPaymentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPaymentStatusWithAggregatesFilter<$PrismaModel> | $Enums.PaymentStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPaymentStatusFilter<$PrismaModel>
+    _max?: NestedEnumPaymentStatusFilter<$PrismaModel>
   }
 
   export type OrderScalarRelationFilter = {
@@ -8324,6 +8595,14 @@ export namespace Prisma {
     divide?: number
   }
 
+  export type NullableEnumDeliveryTimePrefFieldUpdateOperationsInput = {
+    set?: $Enums.DeliveryTimePref | null
+  }
+
+  export type EnumPaymentStatusFieldUpdateOperationsInput = {
+    set?: $Enums.PaymentStatus
+  }
+
   export type OrderItemUpdateManyWithoutOrderNestedInput = {
     create?: XOR<OrderItemCreateWithoutOrderInput, OrderItemUncheckedCreateWithoutOrderInput> | OrderItemCreateWithoutOrderInput[] | OrderItemUncheckedCreateWithoutOrderInput[]
     connectOrCreate?: OrderItemCreateOrConnectWithoutOrderInput | OrderItemCreateOrConnectWithoutOrderInput[]
@@ -8489,6 +8768,20 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedEnumDeliveryTimePrefNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.DeliveryTimePref | EnumDeliveryTimePrefFieldRefInput<$PrismaModel> | null
+    in?: $Enums.DeliveryTimePref[] | ListEnumDeliveryTimePrefFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.DeliveryTimePref[] | ListEnumDeliveryTimePrefFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumDeliveryTimePrefNullableFilter<$PrismaModel> | $Enums.DeliveryTimePref | null
+  }
+
+  export type NestedEnumPaymentStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.PaymentStatus | EnumPaymentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPaymentStatusFilter<$PrismaModel> | $Enums.PaymentStatus
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -8682,6 +8975,26 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
+  export type NestedEnumDeliveryTimePrefNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DeliveryTimePref | EnumDeliveryTimePrefFieldRefInput<$PrismaModel> | null
+    in?: $Enums.DeliveryTimePref[] | ListEnumDeliveryTimePrefFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.DeliveryTimePref[] | ListEnumDeliveryTimePrefFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumDeliveryTimePrefNullableWithAggregatesFilter<$PrismaModel> | $Enums.DeliveryTimePref | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumDeliveryTimePrefNullableFilter<$PrismaModel>
+    _max?: NestedEnumDeliveryTimePrefNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumPaymentStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PaymentStatus | EnumPaymentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPaymentStatusWithAggregatesFilter<$PrismaModel> | $Enums.PaymentStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPaymentStatusFilter<$PrismaModel>
+    _max?: NestedEnumPaymentStatusFilter<$PrismaModel>
+  }
+
   export type NestedUuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -8820,6 +9133,12 @@ export namespace Prisma {
     qualityBonus?: Decimal | DecimalJsLike | number | string | null
     dropPointName?: string | null
     dropPointAddress?: string | null
+    deliveryAddressId?: string | null
+    deliveryTimePref?: $Enums.DeliveryTimePref | null
+    paymentStatus?: $Enums.PaymentStatus
+    escrowTransactionId?: string | null
+    pricePerKg?: Decimal | DecimalJsLike | number | string | null
+    farmerZone?: string | null
   }
 
   export type OrderUncheckedCreateWithoutItemsInput = {
@@ -8856,6 +9175,12 @@ export namespace Prisma {
     qualityBonus?: Decimal | DecimalJsLike | number | string | null
     dropPointName?: string | null
     dropPointAddress?: string | null
+    deliveryAddressId?: string | null
+    deliveryTimePref?: $Enums.DeliveryTimePref | null
+    paymentStatus?: $Enums.PaymentStatus
+    escrowTransactionId?: string | null
+    pricePerKg?: Decimal | DecimalJsLike | number | string | null
+    farmerZone?: string | null
   }
 
   export type OrderCreateOrConnectWithoutItemsInput = {
@@ -8907,6 +9232,12 @@ export namespace Prisma {
     qualityBonus?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     dropPointName?: NullableStringFieldUpdateOperationsInput | string | null
     dropPointAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryAddressId?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryTimePref?: NullableEnumDeliveryTimePrefFieldUpdateOperationsInput | $Enums.DeliveryTimePref | null
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    escrowTransactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    pricePerKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    farmerZone?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type OrderUncheckedUpdateWithoutItemsInput = {
@@ -8943,6 +9274,12 @@ export namespace Prisma {
     qualityBonus?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     dropPointName?: NullableStringFieldUpdateOperationsInput | string | null
     dropPointAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryAddressId?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryTimePref?: NullableEnumDeliveryTimePrefFieldUpdateOperationsInput | $Enums.DeliveryTimePref | null
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    escrowTransactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    pricePerKg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    farmerZone?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type OrderItemCreateManyOrderInput = {
